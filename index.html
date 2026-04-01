@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environmental Sustainability Claims & Consumer Purchase Intent — Research Survey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gf-purple: #673AB7;
+      --gf-purple-dark: #512DA8;
+      --gf-purple-light: #EDE7F6;
+      --gf-purple-50: #F3E5F5;
+      --gf-bg: #F0EBF8;
+      --gf-card: #FFFFFF;
+      --gf-text: #202124;
+      --gf-text-secondary: #5F6368;
+      --gf-text-muted: #80868B;
+      --gf-border: #DADCE0;
+      --gf-border-hover: #BDC1C6;
+      --gf-error: #D93025;
+      --gf-error-bg: #FCE8E6;
+      --gf-blue: #1A73E8;
+      --gf-green: #1E8E3E;
+      --gf-green-bg: #E6F4EA;
+      --gf-amber: #E37400;
+      --gf-amber-bg: #FEF7E0;
+      --gf-radius: 8px;
+      --gf-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+      --gf-shadow-hover: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gf-bg);
+      color: var(--gf-text);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .form-container { max-width: 640px; margin: 0 auto; padding: 12px 16px 80px; }
+
+    /* ── Header Card (purple top bar) ── */
+    .header-card {
+      background: var(--gf-card);
+      border-radius: var(--gf-radius);
+      box-shadow: var(--gf-shadow);
+      overflow: hidden;
+      margin-bottom: 12px;
+      border-top: 10px solid var(--gf-purple);
+    }
+    .header-body { padding: 24px 24px 20px; }
+    .header-title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 24px; font-weight: 400;
+      color: var(--gf-text); line-height: 1.35;
+      margin-bottom: 4px;
+    }
+    .header-desc {
+      font-size: 14px; color: var(--gf-text-secondary);
+      line-height: 1.65; margin-top: 12px;
+      white-space: pre-line;
+    }
+    .header-desc strong { font-weight: 500; color: var(--gf-text); }
+    .header-required {
+      font-size: 13px; color: var(--gf-error);
+      margin-top: 16px; padding-top: 12px;
+      border-top: 1px solid var(--gf-border);
+    }
+
+    /* ── Section (page) ── */
+    .form-section { display: none; }
+    .form-section.active { display: block; animation: fadeUp .35s ease both; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section title card ── */
+    .section-title-card {
+      background: var(--gf-card);
+      border-radius: var(--gf-radius);
+      box-shadow: var(--gf-shadow);
+      margin-bottom: 12px;
+      overflow: hidden;
+      border-top: 10px solid var(--gf-purple);
+    }
+    .section-title-card .stc-body { padding: 22px 24px 16px; }
+    .section-title-card .stc-title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 18px; font-weight: 400; color: var(--gf-text);
+    }
+    .section-title-card .stc-desc {
+      font-size: 14px; color: var(--gf-text-secondary);
+      margin-top: 8px; line-height: 1.55;
+    }
+    .section-title-card .stc-page {
+      font-size: 12px; color: var(--gf-text-muted);
+      margin-top: 12px; padding-top: 10px;
+      border-top: 1px solid var(--gf-border);
+    }
+
+    /* ── Question Card ── */
+    .q-card {
+      background: var(--gf-card);
+      border-radius: var(--gf-radius);
+      box-shadow: var(--gf-shadow);
+      margin-bottom: 12px;
+      padding: 24px;
+      border-left: 3px solid transparent;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .q-card:hover { box-shadow: var(--gf-shadow-hover); }
+    .q-card.focused { border-left-color: var(--gf-blue); }
+    .q-card.has-error { border-left-color: var(--gf-error); background: #FFFBFA; }
+
+    .q-title {
+      font-size: 15px; font-weight: 400;
+      color: var(--gf-text); line-height: 1.5;
+      margin-bottom: 2px;
+    }
+    .q-title .req { color: var(--gf-error); margin-left: 3px; }
+    .q-hint {
+      font-size: 12px; color: var(--gf-text-muted);
+      margin-top: 4px; line-height: 1.5;
+    }
+
+    /* ── Options ── */
+    .opts { margin-top: 16px; display: flex; flex-direction: column; gap: 0; }
+    .opt {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0;
+      cursor: pointer; user-select: none;
+      font-size: 14px; color: var(--gf-text);
+      transition: background .12s ease;
+      border-radius: 4px; padding-left: 4px; padding-right: 4px;
+    }
+    .opt:hover { background: rgba(0,0,0,.04); }
+
+    /* Custom radio */
+    .opt input[type="radio"],
+    .opt input[type="checkbox"] {
+      appearance: none; -webkit-appearance: none;
+      width: 20px; height: 20px;
+      flex-shrink: 0; cursor: pointer;
+      border: 2px solid var(--gf-text-muted);
+      transition: all .15s ease;
+      position: relative;
+    }
+    .opt input[type="radio"] { border-radius: 50%; }
+    .opt input[type="checkbox"] { border-radius: 3px; }
+
+    .opt input[type="radio"]:checked {
+      border-color: var(--gf-purple);
+      background: white;
+      box-shadow: inset 0 0 0 4px var(--gf-purple);
+    }
+    .opt input[type="checkbox"]:checked {
+      border-color: var(--gf-purple);
+      background: var(--gf-purple);
+    }
+    .opt input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute; left: 3px; top: 0px;
+      width: 6px; height: 11px;
+      border: solid white; border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    /* ── Likert Grid ── */
+    .likert-card { padding: 24px; }
+    .likert-intro {
+      font-size: 15px; color: var(--gf-text);
+      margin-bottom: 4px;
+    }
+    .likert-scale-hint {
+      font-size: 12px; color: var(--gf-text-muted);
+      margin-bottom: 16px;
+    }
+    .likert-grid {
+      width: 100%; border-collapse: collapse;
+    }
+    .likert-grid thead th {
+      font-size: 12px; font-weight: 500;
+      color: var(--gf-text-secondary);
+      text-align: center; padding: 8px 4px 12px;
+      border-bottom: 1px solid var(--gf-border);
+    }
+    .likert-grid thead th:first-child {
+      text-align: left; width: 46%;
+    }
+    .likert-grid tbody tr {
+      border-bottom: 1px solid #F1F3F4;
+      transition: background .12s ease;
+    }
+    .likert-grid tbody tr:hover { background: rgba(0,0,0,.02); }
+    .likert-grid tbody tr:last-child { border-bottom: none; }
+    .likert-grid tbody td {
+      padding: 12px 4px; text-align: center; vertical-align: middle;
+    }
+    .likert-grid tbody td:first-child {
+      text-align: left; font-size: 13px; color: var(--gf-text);
+      line-height: 1.5; padding-right: 12px;
+    }
+    .likert-grid tbody td:first-child .ic {
+      font-size: 11px; font-weight: 500; color: var(--gf-text-muted);
+      margin-right: 6px;
+    }
+    .likert-radio {
+      appearance: none; -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border: 2px solid var(--gf-text-muted);
+      border-radius: 50%; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .likert-radio:hover { border-color: var(--gf-purple); }
+    .likert-radio:checked {
+      border-color: var(--gf-purple);
+      background: white;
+      box-shadow: inset 0 0 0 4px var(--gf-purple);
+    }
+
+    /* ── Yes/No Chips ── */
+    .yn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .yn-chip {
+      padding: 8px 20px;
+      border: 1px solid var(--gf-border);
+      border-radius: 16px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px; color: var(--gf-text-secondary);
+      background: white; cursor: pointer;
+      transition: all .15s ease;
+    }
+    .yn-chip:hover { background: #F8F9FA; border-color: var(--gf-border-hover); }
+    .yn-chip.active {
+      background: var(--gf-purple-light);
+      border-color: var(--gf-purple);
+      color: var(--gf-purple-dark);
+      font-weight: 500;
+    }
+
+    /* ── Context reveal ── */
+    .context-reveal {
+      display: none; margin-top: 12px;
+      padding: 14px 16px;
+      background: var(--gf-amber-bg);
+      border-radius: var(--gf-radius);
+      font-size: 13px; color: #5D4037; line-height: 1.6;
+    }
+    .context-reveal.visible { display: block; }
+
+    /* ── Error ── */
+    .err-msg {
+      display: none; margin-top: 8px;
+      font-size: 12px; color: var(--gf-error);
+      font-weight: 400;
+    }
+    .err-msg.visible { display: flex; align-items: center; gap: 6px; }
+    .err-msg svg { flex-shrink: 0; }
+
+    /* ── Skip notice ── */
+    .skip-notice {
+      display: none;
+      background: var(--gf-green-bg);
+      border-radius: var(--gf-radius);
+      padding: 14px 20px;
+      margin-bottom: 12px;
+      font-size: 13px; color: #137333; line-height: 1.6;
+      box-shadow: var(--gf-shadow);
+    }
+    .skip-notice.visible { display: block; animation: fadeUp .35s ease both; }
+
+    /* ── Navigation ── */
+    .nav-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 16px; padding: 0 4px;
+    }
+    .nav-row .page-info {
+      font-size: 12px; color: var(--gf-text-muted);
+    }
+    .btn-group { display: flex; gap: 8px; }
+
+    .gf-btn {
+      padding: 8px 24px; border: none;
+      border-radius: 4px; cursor: pointer;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 14px; font-weight: 500;
+      transition: all .15s ease;
+      letter-spacing: .01em;
+    }
+    .gf-btn-primary {
+      background: var(--gf-purple);
+      color: white;
+    }
+    .gf-btn-primary:hover { background: var(--gf-purple-dark); box-shadow: 0 1px 4px rgba(103,58,183,.3); }
+    .gf-btn-text {
+      background: transparent;
+      color: var(--gf-purple);
+    }
+    .gf-btn-text:hover { background: var(--gf-purple-50); }
+
+    .gf-btn:disabled { opacity: .38; cursor: default; }
+
+    /* ── Progress bar (Google Forms style) ── */
+    .progress-row {
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .progress-track {
+      flex: 1; height: 4px;
+      background: #D1C4E9;
+      border-radius: 2px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 0%;
+      background: var(--gf-purple);
+      border-radius: 2px;
+      transition: width .4s ease;
+    }
+    .progress-pct {
+      font-size: 12px; color: var(--gf-text-muted);
+      min-width: 32px; text-align: right;
+      font-weight: 500;
+    }
+
+    /* ── Thank You ── */
+    .thankyou {
+      display: none;
+    }
+    .thankyou.visible { display: block; animation: fadeUp .4s ease both; }
+    .ty-card {
+      background: var(--gf-card);
+      border-radius: var(--gf-radius);
+      box-shadow: var(--gf-shadow);
+      border-top: 10px solid var(--gf-purple);
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .ty-icon {
+      width: 56px; height: 56px;
+      background: var(--gf-green-bg);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .ty-icon svg { width: 28px; height: 28px; color: var(--gf-green); }
+    .ty-title {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 24px; font-weight: 400;
+      color: var(--gf-text); margin-bottom: 8px;
+    }
+    .ty-body {
+      font-size: 14px; color: var(--gf-text-secondary);
+      line-height: 1.65; max-width: 460px; margin: 0 auto 24px;
+    }
+    .ty-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .ty-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 20px; border: 1px solid var(--gf-border);
+      border-radius: 4px; font-size: 13px; font-weight: 500;
+      color: var(--gf-purple); background: white;
+      cursor: pointer; transition: all .15s ease;
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+    }
+    .ty-btn:hover { background: var(--gf-purple-50); border-color: var(--gf-purple); }
+
+    /* ── Setup instructions (hidden by default, toggled) ── */
+    .setup-panel {
+      display: none;
+      background: var(--gf-card);
+      border-radius: var(--gf-radius);
+      box-shadow: var(--gf-shadow);
+      margin-top: 16px; padding: 24px;
+      text-align: left;
+    }
+    .setup-panel.visible { display: block; animation: fadeUp .35s ease both; }
+    .setup-panel h3 {
+      font-family: 'Google Sans', 'Roboto', sans-serif;
+      font-size: 16px; font-weight: 500; color: var(--gf-text);
+      margin-bottom: 16px;
+    }
+    .setup-step {
+      margin-bottom: 16px; padding: 16px;
+      background: #F8F9FA; border-radius: 6px;
+      font-size: 13px; line-height: 1.7;
+      color: var(--gf-text-secondary);
+    }
+    .setup-step .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--gf-purple); color: white;
+      font-size: 11px; font-weight: 700;
+      margin-right: 8px; flex-shrink: 0;
+      vertical-align: middle;
+    }
+    .setup-step strong { color: var(--gf-text); }
+    .setup-step code {
+      background: #E8EAF6; padding: 1px 6px;
+      border-radius: 3px; font-size: 12px;
+      font-family: 'Roboto Mono', monospace;
+      color: var(--gf-purple-dark);
+    }
+
+    /* ── Textarea ── */
+    .gf-textarea {
+      width: 100%; padding: 0; margin-top: 16px;
+      border: none; border-bottom: 1px solid var(--gf-border);
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px; color: var(--gf-text);
+      resize: vertical; min-height: 60px;
+      outline: none; background: transparent;
+      line-height: 1.6;
+      transition: border-color .2s ease;
+    }
+    .gf-textarea:focus { border-bottom-color: var(--gf-purple); border-bottom-width: 2px; }
+    .gf-textarea::placeholder { color: var(--gf-text-muted); }
+
+    /* ── Attention check card ── */
+    .attn-card {
+      background: var(--gf-amber-bg);
+      border-radius: var(--gf-radius);
+      box-shadow: var(--gf-shadow);
+      margin-bottom: 12px; padding: 24px;
+      border-left: 4px solid var(--gf-amber);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .form-container { padding: 8px 8px 60px; }
+      .header-body, .q-card, .likert-card { padding: 18px 16px; }
+      .header-title { font-size: 20px; }
+      .likert-grid { font-size: 11px; }
+      .likert-grid thead th:first-child { width: 36%; }
+      .likert-radio { width: 16px; height: 16px; }
+      .opt input[type="radio"], .opt input[type="checkbox"] { width: 18px; height: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container" id="formApp">
+
+  <!-- ══════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════ -->
+  <div class="header-card">
+    <div class="header-body">
+      <h1 class="header-title">Environmental Sustainability Claims of Patanjali &amp; Consumer Purchase Intent</h1>
+      <div class="header-desc">This survey is part of an MBA research project examining how consumers perceive environmental and natural product claims made by personal care brands in India, with a focus on Patanjali.
+
+<strong>Participation is voluntary and fully anonymous.</strong> No personally identifying information is collected. Responses will be used solely for academic analysis.</div>
+      <div class="header-required">* Indicates required question</div>
+    </div>
+  </div>
+
+  <!-- ── Progress ── -->
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="pFill"></div></div>
+    <span class="progress-pct" id="pPct">0%</span>
+  </div>
+
+  <!-- Skip notice -->
+  <div class="skip-notice" id="skipNotice">✓ Since you haven't purchased Patanjali, sections about your personal Patanjali experience have been skipped. You'll still answer questions about environmental consciousness, greenwashing attitudes, and purchase intention.</div>
+
+
+  <!-- ═══════════════ PAGE 1: CONSENT ═══════════════ -->
+  <div class="form-section active" id="pg-consent" data-pg="0">
+    <div class="q-card" data-req="1" data-name="consent">
+      <div class="q-title">I have read the above information and consent to participate in this survey. <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="consent" value="yes"> Yes, I consent to participate</label>
+        <label class="opt"><input type="radio" name="consent" value="no"> No, I do not wish to participate</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+    <div class="nav-row">
+      <span class="page-info"></span>
+      <div class="btn-group"><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 2: DEMOGRAPHICS ═══════════════ -->
+  <div class="form-section" id="pg-demo" data-pg="1">
+    <div class="section-title-card">
+      <div class="stc-body">
+        <div class="stc-title">Section 1 — Demographics</div>
+        <div class="stc-desc">Basic information to contextualise your responses.</div>
+      </div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="age">
+      <div class="q-title">Age group <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="age" value="under18"> Under 18</label>
+        <label class="opt"><input type="radio" name="age" value="18-24"> 18–24</label>
+        <label class="opt"><input type="radio" name="age" value="25-34"> 25–34</label>
+        <label class="opt"><input type="radio" name="age" value="35-44"> 35–44</label>
+        <label class="opt"><input type="radio" name="age" value="45-54"> 45–54</label>
+        <label class="opt"><input type="radio" name="age" value="55+"> 55 or above</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="gender">
+      <div class="q-title">Gender <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="gender" value="female"> Female</label>
+        <label class="opt"><input type="radio" name="gender" value="male"> Male</label>
+        <label class="opt"><input type="radio" name="gender" value="nonbinary"> Non-binary / Gender non-conforming</label>
+        <label class="opt"><input type="radio" name="gender" value="prefer-not"> Prefer not to say</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="location">
+      <div class="q-title">Which best describes where you live? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="location" value="metro"> Metro city (Mumbai, Delhi, Bengaluru, Hyderabad, Chennai, Kolkata)</label>
+        <label class="opt"><input type="radio" name="location" value="tier2"> Tier-2 city</label>
+        <label class="opt"><input type="radio" name="location" value="tier3"> Tier-3 city / Small town</label>
+        <label class="opt"><input type="radio" name="location" value="rural"> Rural / Village</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="occupation">
+      <div class="q-title">Occupation / Employment status <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="occupation" value="student"> Student</label>
+        <label class="opt"><input type="radio" name="occupation" value="salaried"> Salaried professional</label>
+        <label class="opt"><input type="radio" name="occupation" value="selfemployed"> Self-employed / Business owner</label>
+        <label class="opt"><input type="radio" name="occupation" value="homemaker"> Homemaker</label>
+        <label class="opt"><input type="radio" name="occupation" value="unemployed"> Currently unemployed</label>
+        <label class="opt"><input type="radio" name="occupation" value="other"> Other</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="income">
+      <div class="q-title">Monthly household income (approximate) <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="income" value="under25k"> Below ₹25,000</label>
+        <label class="opt"><input type="radio" name="income" value="25-50k"> ₹25,000 – ₹50,000</label>
+        <label class="opt"><input type="radio" name="income" value="50-100k"> ₹50,001 – ₹1,00,000</label>
+        <label class="opt"><input type="radio" name="income" value="100-200k"> ₹1,00,001 – ₹2,00,000</label>
+        <label class="opt"><input type="radio" name="income" value="above200k"> Above ₹2,00,000</label>
+        <label class="opt"><input type="radio" name="income" value="prefer-not-inc"> Prefer not to say</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="brands" data-type="cb">
+      <div class="q-title">Which personal care brands have you used in the past 6 months? <span class="req">*</span></div>
+      <div class="q-hint">Select all that apply.</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="brands" value="patanjali"> Patanjali</label>
+        <label class="opt"><input type="checkbox" name="brands" value="himalaya"> Himalaya</label>
+        <label class="opt"><input type="checkbox" name="brands" value="forestessentials"> Forest Essentials</label>
+        <label class="opt"><input type="checkbox" name="brands" value="mamaearth"> Mamaearth</label>
+        <label class="opt"><input type="checkbox" name="brands" value="khadi"> Khadi Natural</label>
+        <label class="opt"><input type="checkbox" name="brands" value="hul"> HUL brands (Dove, Clinic Plus, etc.)</label>
+        <label class="opt"><input type="checkbox" name="brands" value="pg"> P&amp;G brands (Pantene, Olay, etc.)</label>
+        <label class="opt"><input type="checkbox" name="brands" value="other-brand"> Other</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="nav-row">
+      <span class="page-info" id="pageInfo"></span>
+      <div class="btn-group">
+        <button class="gf-btn gf-btn-text" onclick="goBack()">Back</button>
+        <button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 3: SCREENING ═══════════════ -->
+  <div class="form-section" id="pg-screen" data-pg="2">
+    <div class="section-title-card">
+      <div class="stc-body">
+        <div class="stc-title">Section 2 — Patanjali Usage</div>
+        <div class="stc-desc">This helps us tailor the remaining questions to your experience.</div>
+      </div>
+    </div>
+    <div class="q-card" data-req="1" data-name="patanjali_usage">
+      <div class="q-title">Do you currently buy or use Patanjali personal care products? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="patanjali_usage" value="yes-reg"> Yes, I buy them regularly</label>
+        <label class="opt"><input type="radio" name="patanjali_usage" value="yes-occ"> Yes, I buy them occasionally</label>
+        <label class="opt"><input type="radio" name="patanjali_usage" value="past-only"> No, but I have bought them in the past</label>
+        <label class="opt"><input type="radio" name="patanjali_usage" value="never"> No, I have never bought Patanjali</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+    <div class="nav-row">
+      <span class="page-info"></span>
+      <div class="btn-group">
+        <button class="gf-btn gf-btn-text" onclick="goBack()">Back</button>
+        <button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 4: BUYER DETAIL (buyer only) ═══════════════ -->
+  <div class="form-section buyer-page" id="pg-buyer" data-pg="3">
+    <div class="section-title-card">
+      <div class="stc-body">
+        <div class="stc-title">Section 3 — Patanjali Purchase Details</div>
+        <div class="stc-desc">About your Patanjali purchasing habits.</div>
+      </div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="frequency">
+      <div class="q-title">How often do you typically purchase Patanjali products? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="frequency" value="weekly"> Once a week or more</label>
+        <label class="opt"><input type="radio" name="frequency" value="monthly"> Once or twice a month</label>
+        <label class="opt"><input type="radio" name="frequency" value="quarterly"> Once every 2–3 months</label>
+        <label class="opt"><input type="radio" name="frequency" value="rarely"> Rarely (once or twice a year)</label>
+        <label class="opt"><input type="radio" name="frequency" value="no-longer"> I no longer purchase (past user)</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="categories" data-type="cb">
+      <div class="q-title">Which Patanjali product categories have you used? <span class="req">*</span></div>
+      <div class="q-hint">Select all that apply.</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="categories" value="haircare"> Hair care (shampoo, oil, conditioner)</label>
+        <label class="opt"><input type="checkbox" name="categories" value="skincare"> Skincare (face wash, moisturiser, cream)</label>
+        <label class="opt"><input type="checkbox" name="categories" value="oralcare"> Oral care (toothpaste, mouthwash)</label>
+        <label class="opt"><input type="checkbox" name="categories" value="bodycare"> Body care (soap, body wash, lotion)</label>
+        <label class="opt"><input type="checkbox" name="categories" value="ayurvedic"> Ayurvedic supplements / medicines</label>
+        <label class="opt"><input type="checkbox" name="categories" value="food"> Food products</label>
+        <label class="opt"><input type="checkbox" name="categories" value="other-cat"> Other</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="reasons" data-type="cb" data-max="3">
+      <div class="q-title">What are your main reasons for buying (or having bought) Patanjali products? <span class="req">*</span></div>
+      <div class="q-hint">Select up to 3 options.</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="reasons" value="price"> Affordable price</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="natural"> Perceived natural / Ayurvedic ingredients</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="swadeshi"> Swadeshi (Indian-made) identity</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="eco"> Environmental / sustainability reasons</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="family"> Recommended by family or friends</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="trust"> Trust in brand leadership / credibility</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="availability"> Widely available / easy to find</label>
+        <label class="opt"><input type="checkbox" name="reasons" value="other-reason"> Other</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please select 1–3 options</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="claim_source" data-type="cb" data-max="2">
+      <div class="q-title">Where do you mainly learn about Patanjali's product claims (e.g., "natural," "Ayurvedic," "chemical-free")? <span class="req">*</span></div>
+      <div class="q-hint">Select up to 2 options.</div>
+      <div class="opts">
+        <label class="opt"><input type="checkbox" name="claim_source" value="tvad"> TV or YouTube advertisements</label>
+        <label class="opt"><input type="checkbox" name="claim_source" value="packaging"> Product packaging</label>
+        <label class="opt"><input type="checkbox" name="claim_source" value="family-src"> Family or friends</label>
+        <label class="opt"><input type="checkbox" name="claim_source" value="socialmedia"> Social media / influencers</label>
+        <label class="opt"><input type="checkbox" name="claim_source" value="news"> News articles or media</label>
+        <label class="opt"><input type="checkbox" name="claim_source" value="store"> In-store / point of purchase</label>
+        <label class="opt"><input type="checkbox" name="claim_source" value="other-src"> Other</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please select 1–2 options</div>
+    </div>
+
+    <div class="nav-row">
+      <span class="page-info"></span>
+      <div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 5: CLAIM INTERPRETATION (all) ═══════════════ -->
+  <div class="form-section" id="pg-claim" data-pg="4">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Understanding Product Claims</div><div class="stc-desc">How you interpret "natural" and "Ayurvedic" labels.</div></div></div>
+    <div class="q-card" data-req="1" data-name="natural_meaning">
+      <div class="q-title">When a brand says its products are "natural," what does that mean to you? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="natural_meaning" value="health"> Better for my health (fewer harmful chemicals)</label>
+        <label class="opt"><input type="radio" name="natural_meaning" value="env"> Better for the environment (sustainable / eco-friendly)</label>
+        <label class="opt"><input type="radio" name="natural_meaning" value="both"> Both of the above</label>
+        <label class="opt"><input type="radio" name="natural_meaning" value="unsure"> I'm not sure what it means</label>
+        <label class="opt"><input type="radio" name="natural_meaning" value="marketing"> I think it's mainly a marketing term</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+    <div class="q-card" data-req="1" data-name="ayurvedic_understanding">
+      <div class="q-title">Before today, how well did you understand what "Ayurvedic" means in the context of personal care products? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="ayurvedic_understanding" value="clearly"> Yes, I have a clear understanding</label>
+        <label class="opt"><input type="radio" name="ayurvedic_understanding" value="roughly"> Roughly — I have a general idea</label>
+        <label class="opt"><input type="radio" name="ayurvedic_understanding" value="no"> No, I'm not sure what it means precisely</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 6: PA (buyer only) ═══════════════ -->
+  <div class="form-section buyer-page" id="pg-pa" data-pg="5">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Perceived Authenticity</div><div class="stc-desc">Your views on Patanjali's product claims and brand honesty.</div></div></div>
+    <div class="q-card likert-card" data-req="1" data-name="pa" data-type="likert" data-items="5">
+      <div class="likert-intro">How much do you agree with the following statements about Patanjali's product claims? <span class="req">*</span></div>
+      <div class="likert-scale-hint">1 = Strongly Disagree · 2 = Disagree · 3 = Neutral · 4 = Agree · 5 = Strongly Agree</div>
+      <table class="likert-grid"><thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>
+        <tr><td><span class="ic">PA-1</span> Patanjali's packaging accurately reflects what is actually inside the product.</td><td><input type="radio" name="pa1" value="1" class="likert-radio"></td><td><input type="radio" name="pa1" value="2" class="likert-radio"></td><td><input type="radio" name="pa1" value="3" class="likert-radio"></td><td><input type="radio" name="pa1" value="4" class="likert-radio"></td><td><input type="radio" name="pa1" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">PA-2</span> I believe Patanjali's "chemical-free" claims are truthful.</td><td><input type="radio" name="pa2" value="1" class="likert-radio"></td><td><input type="radio" name="pa2" value="2" class="likert-radio"></td><td><input type="radio" name="pa2" value="3" class="likert-radio"></td><td><input type="radio" name="pa2" value="4" class="likert-radio"></td><td><input type="radio" name="pa2" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">PA-3</span> Patanjali provides enough information for me to judge whether its claims are true.</td><td><input type="radio" name="pa3" value="1" class="likert-radio"></td><td><input type="radio" name="pa3" value="2" class="likert-radio"></td><td><input type="radio" name="pa3" value="3" class="likert-radio"></td><td><input type="radio" name="pa3" value="4" class="likert-radio"></td><td><input type="radio" name="pa3" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">PA-4</span> Patanjali's Ayurvedic identity seems genuine, not just a marketing tactic.</td><td><input type="radio" name="pa4" value="1" class="likert-radio"></td><td><input type="radio" name="pa4" value="2" class="likert-radio"></td><td><input type="radio" name="pa4" value="3" class="likert-radio"></td><td><input type="radio" name="pa4" value="4" class="likert-radio"></td><td><input type="radio" name="pa4" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">PA-5</span> Patanjali honestly represents its products to consumers.</td><td><input type="radio" name="pa5" value="1" class="likert-radio"></td><td><input type="radio" name="pa5" value="2" class="likert-radio"></td><td><input type="radio" name="pa5" value="3" class="likert-radio"></td><td><input type="radio" name="pa5" value="4" class="likert-radio"></td><td><input type="radio" name="pa5" value="5" class="likert-radio"></td></tr>
+      </tbody></table>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please rate all statements</div>
+    </div>
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 7: EC (all) ═══════════════ -->
+  <div class="form-section" id="pg-ec" data-pg="6">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Environmental Consciousness</div><div class="stc-desc">Your general attitudes and behaviours around eco-friendly personal care.</div></div></div>
+    <div class="q-card likert-card" data-req="1" data-name="ec" data-type="likert" data-items="3">
+      <div class="likert-intro">How much do you agree with the following statements? <span class="req">*</span></div>
+      <div class="likert-scale-hint">1 = Strongly Disagree · 2 = Disagree · 3 = Neutral · 4 = Agree · 5 = Strongly Agree</div>
+      <table class="likert-grid"><thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>
+        <tr><td><span class="ic">EC-1</span> I actively seek out personal care products with eco-friendly or natural ingredients.</td><td><input type="radio" name="ec1" value="1" class="likert-radio"></td><td><input type="radio" name="ec1" value="2" class="likert-radio"></td><td><input type="radio" name="ec1" value="3" class="likert-radio"></td><td><input type="radio" name="ec1" value="4" class="likert-radio"></td><td><input type="radio" name="ec1" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">EC-2</span> I prefer brands that use minimal or recyclable packaging.</td><td><input type="radio" name="ec2" value="1" class="likert-radio"></td><td><input type="radio" name="ec2" value="2" class="likert-radio"></td><td><input type="radio" name="ec2" value="3" class="likert-radio"></td><td><input type="radio" name="ec2" value="4" class="likert-radio"></td><td><input type="radio" name="ec2" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">EC-3</span> I avoid personal care brands that use ingredients harmful to the environment.</td><td><input type="radio" name="ec3" value="1" class="likert-radio"></td><td><input type="radio" name="ec3" value="2" class="likert-radio"></td><td><input type="radio" name="ec3" value="3" class="likert-radio"></td><td><input type="radio" name="ec3" value="4" class="likert-radio"></td><td><input type="radio" name="ec3" value="5" class="likert-radio"></td></tr>
+      </tbody></table>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please rate all statements</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="ec4">
+      <div class="q-title">Have you ever paid more for a personal care product specifically because it was eco-friendly or natural? <span class="req">*</span></div>
+      <div class="yn-group"><button type="button" class="yn-chip" onclick="pickYN(this,'ec4','yes')">Yes</button><button type="button" class="yn-chip" onclick="pickYN(this,'ec4','no')">No</button><button type="button" class="yn-chip" onclick="pickYN(this,'ec4','notsure')">Not sure</button></div>
+      <input type="hidden" name="ec4" id="ec4">
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="ec5">
+      <div class="q-title">Have you ever switched brands for environmental or ethical reasons? <span class="req">*</span></div>
+      <div class="yn-group"><button type="button" class="yn-chip" onclick="pickYN(this,'ec5','yes')">Yes</button><button type="button" class="yn-chip" onclick="pickYN(this,'ec5','no')">No</button><button type="button" class="yn-chip" onclick="pickYN(this,'ec5','notsure')">Not sure</button></div>
+      <input type="hidden" name="ec5" id="ec5">
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="ec6">
+      <div class="q-title">Overall, how do you see yourself as a consumer? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="ec6" value="5"> Very environmentally conscious — it guides most of my purchases</label>
+        <label class="opt"><input type="radio" name="ec6" value="4"> Fairly environmentally conscious — it influences some purchases</label>
+        <label class="opt"><input type="radio" name="ec6" value="3"> Somewhat — I think about it occasionally</label>
+        <label class="opt"><input type="radio" name="ec6" value="2"> Not very — I rarely factor it in</label>
+        <label class="opt"><input type="radio" name="ec6" value="1"> Not at all environmentally conscious in my purchasing</label>
+      </div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 9: GS (all) ═══════════════ -->
+  <div class="form-section" id="pg-gs" data-pg="8">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Greenwashing Skepticism</div><div class="stc-desc">Your general skepticism toward natural and eco-friendly product claims.</div></div></div>
+
+    <div class="q-card" data-req="1" data-name="gs_aware">
+      <div class="q-title">Have you heard of Patanjali receiving regulatory notices or official actions regarding its advertising? <span class="req">*</span></div>
+      <div class="q-hint">Awareness only — answer based on what you knew before taking this survey.</div>
+      <div class="yn-group"><button type="button" class="yn-chip" onclick="pickYN(this,'gs_aware','yes'); document.getElementById('gsCtx').classList.remove('visible')">Yes, I was aware</button><button type="button" class="yn-chip" onclick="pickYN(this,'gs_aware','no'); document.getElementById('gsCtx').classList.add('visible')">No, I was not aware</button><button type="button" class="yn-chip" onclick="pickYN(this,'gs_aware','notsure'); document.getElementById('gsCtx').classList.add('visible')">Not sure</button></div>
+      <input type="hidden" name="gs_aware" id="gs_aware">
+      <div class="context-reveal" id="gsCtx"><strong>For context:</strong> Regulatory bodies including ASCI (Advertising Standards Council of India) have previously reviewed certain Patanjali advertisements for compliance with advertising standards. This is provided so you may interpret the following questions accurately.</div>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card likert-card" data-req="1" data-name="gs" data-type="likert" data-items="3">
+      <div class="likert-intro">How much do you agree with the following statements? <span class="req">*</span></div>
+      <div class="likert-scale-hint">1 = Strongly Disagree · 2 = Disagree · 3 = Neutral · 4 = Agree · 5 = Strongly Agree</div>
+      <table class="likert-grid"><thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>
+        <tr><td><span class="ic">GS-1</span> I need more proof before trusting "Ayurvedic" or "herbal" product claims.</td><td><input type="radio" name="gs1" value="1" class="likert-radio"></td><td><input type="radio" name="gs1" value="2" class="likert-radio"></td><td><input type="radio" name="gs1" value="3" class="likert-radio"></td><td><input type="radio" name="gs1" value="4" class="likert-radio"></td><td><input type="radio" name="gs1" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">GS-2</span> I check ingredient lists before buying personal care products.</td><td><input type="radio" name="gs2" value="1" class="likert-radio"></td><td><input type="radio" name="gs2" value="2" class="likert-radio"></td><td><input type="radio" name="gs2" value="3" class="likert-radio"></td><td><input type="radio" name="gs2" value="4" class="likert-radio"></td><td><input type="radio" name="gs2" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">GS-3</span> I believe some brands use "natural" or "eco-friendly" labels mainly as a marketing strategy, not a genuine commitment.</td><td><input type="radio" name="gs3" value="1" class="likert-radio"></td><td><input type="radio" name="gs3" value="2" class="likert-radio"></td><td><input type="radio" name="gs3" value="3" class="likert-radio"></td><td><input type="radio" name="gs3" value="4" class="likert-radio"></td><td><input type="radio" name="gs3" value="5" class="likert-radio"></td></tr>
+      </tbody></table>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please rate all statements</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="gs4">
+      <div class="q-title">Have you ever looked up a product's ingredients online before buying it? <span class="req">*</span></div>
+      <div class="yn-group"><button type="button" class="yn-chip" onclick="pickYN(this,'gs4','yes')">Yes</button><button type="button" class="yn-chip" onclick="pickYN(this,'gs4','no')">No</button><button type="button" class="yn-chip" onclick="pickYN(this,'gs4','notsure')">Not sure</button></div>
+      <input type="hidden" name="gs4" id="gs4"><div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="gs5">
+      <div class="q-title">Have you ever searched for reviews or complaints about a product's claims before buying? <span class="req">*</span></div>
+      <div class="yn-group"><button type="button" class="yn-chip" onclick="pickYN(this,'gs5','yes')">Yes</button><button type="button" class="yn-chip" onclick="pickYN(this,'gs5','no')">No</button><button type="button" class="yn-chip" onclick="pickYN(this,'gs5','notsure')">Not sure</button></div>
+      <input type="hidden" name="gs5" id="gs5"><div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 10: BI (buyer) ═══════════════ -->
+  <div class="form-section buyer-page" id="pg-bi" data-pg="9">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Brand Identity &amp; Swadeshi Perception</div><div class="stc-desc">How you perceive Patanjali's national and cultural identity.</div></div></div>
+    <div class="q-card likert-card" data-req="1" data-name="bi" data-type="likert" data-items="5">
+      <div class="likert-intro">How much do you agree with the following statements? <span class="req">*</span></div>
+      <div class="likert-scale-hint">1 = Strongly Disagree · 2 = Disagree · 3 = Neutral · 4 = Agree · 5 = Strongly Agree</div>
+      <table class="likert-grid"><thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>
+        <tr><td><span class="ic">BI-1</span> Patanjali's swadeshi (Indian-made) identity is an important part of its brand image.</td><td><input type="radio" name="bi1" value="1" class="likert-radio"></td><td><input type="radio" name="bi1" value="2" class="likert-radio"></td><td><input type="radio" name="bi1" value="3" class="likert-radio"></td><td><input type="radio" name="bi1" value="4" class="likert-radio"></td><td><input type="radio" name="bi1" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BI-2</span> I feel a sense of national pride when buying Patanjali products.</td><td><input type="radio" name="bi2" value="1" class="likert-radio"></td><td><input type="radio" name="bi2" value="2" class="likert-radio"></td><td><input type="radio" name="bi2" value="3" class="likert-radio"></td><td><input type="radio" name="bi2" value="4" class="likert-radio"></td><td><input type="radio" name="bi2" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BI-3</span> I associate Patanjali more strongly with being Indian-made than other natural or Ayurvedic personal care brands.</td><td><input type="radio" name="bi3" value="1" class="likert-radio"></td><td><input type="radio" name="bi3" value="2" class="likert-radio"></td><td><input type="radio" name="bi3" value="3" class="likert-radio"></td><td><input type="radio" name="bi3" value="4" class="likert-radio"></td><td><input type="radio" name="bi3" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BI-4</span> People important to me (family, friends) think I should buy natural or Ayurvedic personal care products.</td><td><input type="radio" name="bi4" value="1" class="likert-radio"></td><td><input type="radio" name="bi4" value="2" class="likert-radio"></td><td><input type="radio" name="bi4" value="3" class="likert-radio"></td><td><input type="radio" name="bi4" value="4" class="likert-radio"></td><td><input type="radio" name="bi4" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BI-5</span> I would switch to a different natural brand if Patanjali stopped making natural claims about its products.</td><td><input type="radio" name="bi5" value="1" class="likert-radio"></td><td><input type="radio" name="bi5" value="2" class="likert-radio"></td><td><input type="radio" name="bi5" value="3" class="likert-radio"></td><td><input type="radio" name="bi5" value="4" class="likert-radio"></td><td><input type="radio" name="bi5" value="5" class="likert-radio"></td></tr>
+      </tbody></table>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please rate all statements</div>
+    </div>
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 11: BS (buyer) ═══════════════ -->
+  <div class="form-section buyer-page" id="pg-bs" data-pg="10">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Brand Satisfaction</div><div class="stc-desc">Your satisfaction with Patanjali as a brand.</div></div></div>
+    <div class="q-card likert-card" data-req="1" data-name="bs" data-type="likert" data-items="5">
+      <div class="likert-intro">How much do you agree with the following statements? <span class="req">*</span></div>
+      <div class="likert-scale-hint">1 = Strongly Disagree · 2 = Disagree · 3 = Neutral · 4 = Agree · 5 = Strongly Agree</div>
+      <table class="likert-grid"><thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>
+        <tr><td><span class="ic">BS-1</span> I am satisfied with the overall quality of Patanjali products I have used.</td><td><input type="radio" name="bs1" value="1" class="likert-radio"></td><td><input type="radio" name="bs1" value="2" class="likert-radio"></td><td><input type="radio" name="bs1" value="3" class="likert-radio"></td><td><input type="radio" name="bs1" value="4" class="likert-radio"></td><td><input type="radio" name="bs1" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BS-2</span> Patanjali products have delivered on what the brand promised.</td><td><input type="radio" name="bs2" value="1" class="likert-radio"></td><td><input type="radio" name="bs2" value="2" class="likert-radio"></td><td><input type="radio" name="bs2" value="3" class="likert-radio"></td><td><input type="radio" name="bs2" value="4" class="likert-radio"></td><td><input type="radio" name="bs2" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BS-3</span> I would recommend Patanjali to someone who values natural personal care products.</td><td><input type="radio" name="bs3" value="1" class="likert-radio"></td><td><input type="radio" name="bs3" value="2" class="likert-radio"></td><td><input type="radio" name="bs3" value="3" class="likert-radio"></td><td><input type="radio" name="bs3" value="4" class="likert-radio"></td><td><input type="radio" name="bs3" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BS-4</span> My satisfaction with Patanjali is significantly influenced by whether its natural claims are honest.</td><td><input type="radio" name="bs4" value="1" class="likert-radio"></td><td><input type="radio" name="bs4" value="2" class="likert-radio"></td><td><input type="radio" name="bs4" value="3" class="likert-radio"></td><td><input type="radio" name="bs4" value="4" class="likert-radio"></td><td><input type="radio" name="bs4" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">BS-5</span> My satisfaction with Patanjali is significantly influenced by the actual performance of its products.</td><td><input type="radio" name="bs5" value="1" class="likert-radio"></td><td><input type="radio" name="bs5" value="2" class="likert-radio"></td><td><input type="radio" name="bs5" value="3" class="likert-radio"></td><td><input type="radio" name="bs5" value="4" class="likert-radio"></td><td><input type="radio" name="bs5" value="5" class="likert-radio"></td></tr>
+      </tbody></table>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please rate all statements</div>
+    </div>
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 12: WTP (buyer) ═══════════════ -->
+  <div class="form-section buyer-page" id="pg-wtp" data-pg="11">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Willingness to Pay</div><div class="stc-desc">Your price sensitivity related to Patanjali's natural claims.</div></div></div>
+    <div class="q-card likert-card" data-req="1" data-name="wtp" data-type="likert" data-items="4">
+      <div class="likert-intro">How much do you agree with the following statements? <span class="req">*</span></div>
+      <div class="likert-scale-hint">1 = Strongly Disagree · 2 = Disagree · 3 = Neutral · 4 = Agree · 5 = Strongly Agree</div>
+      <table class="likert-grid"><thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody>
+        <tr><td><span class="ic">WTP-1</span> I am willing to pay a premium for Patanjali products if I am confident their natural claims are verified.</td><td><input type="radio" name="wtp1" value="1" class="likert-radio"></td><td><input type="radio" name="wtp1" value="2" class="likert-radio"></td><td><input type="radio" name="wtp1" value="3" class="likert-radio"></td><td><input type="radio" name="wtp1" value="4" class="likert-radio"></td><td><input type="radio" name="wtp1" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">WTP-2</span> I would pay more for a Patanjali product if it had third-party certification for its natural ingredients.</td><td><input type="radio" name="wtp2" value="1" class="likert-radio"></td><td><input type="radio" name="wtp2" value="2" class="likert-radio"></td><td><input type="radio" name="wtp2" value="3" class="likert-radio"></td><td><input type="radio" name="wtp2" value="4" class="likert-radio"></td><td><input type="radio" name="wtp2" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">WTP-3</span> I consider Patanjali products to offer good value for money.</td><td><input type="radio" name="wtp3" value="1" class="likert-radio"></td><td><input type="radio" name="wtp3" value="2" class="likert-radio"></td><td><input type="radio" name="wtp3" value="3" class="likert-radio"></td><td><input type="radio" name="wtp3" value="4" class="likert-radio"></td><td><input type="radio" name="wtp3" value="5" class="likert-radio"></td></tr>
+        <tr><td><span class="ic">WTP-4</span> If Patanjali's prices increased by 10–15%, I would still continue purchasing.</td><td><input type="radio" name="wtp4" value="1" class="likert-radio"></td><td><input type="radio" name="wtp4" value="2" class="likert-radio"></td><td><input type="radio" name="wtp4" value="3" class="likert-radio"></td><td><input type="radio" name="wtp4" value="4" class="likert-radio"></td><td><input type="radio" name="wtp4" value="5" class="likert-radio"></td></tr>
+      </tbody></table>
+      <div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> Please rate all statements</div>
+    </div>
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 13: PI (all, conditional items) ═══════════════ -->
+  <div class="form-section" id="pg-pi" data-pg="12">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Purchase Intention</div><div class="stc-desc">Your future purchase likelihood.</div></div></div>
+
+    <div class="q-card buyer-q" data-req="1" data-name="pi1" id="pi1q">
+      <div class="q-title">How likely are you to continue buying Patanjali personal care products in the next 6 months? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="pi1" value="5"> Very likely</label><label class="opt"><input type="radio" name="pi1" value="4"> Likely</label><label class="opt"><input type="radio" name="pi1" value="3"> Uncertain</label><label class="opt"><input type="radio" name="pi1" value="2"> Unlikely</label><label class="opt"><input type="radio" name="pi1" value="1"> Very unlikely</label>
+      </div><div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card buyer-q" data-req="1" data-name="pi2" id="pi2q">
+      <div class="q-title">How likely are you to recommend Patanjali to others looking for natural personal care products? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="pi2" value="5"> Very likely</label><label class="opt"><input type="radio" name="pi2" value="4"> Likely</label><label class="opt"><input type="radio" name="pi2" value="3"> Uncertain</label><label class="opt"><input type="radio" name="pi2" value="2"> Unlikely</label><label class="opt"><input type="radio" name="pi2" value="1"> Very unlikely</label>
+      </div><div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card nonbuyer-q" data-req="1" data-name="pi3" id="pi3q" style="display:none;">
+      <div class="q-title">How likely would you be to try Patanjali personal care products in the future? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="pi3" value="5"> Very likely</label><label class="opt"><input type="radio" name="pi3" value="4"> Likely</label><label class="opt"><input type="radio" name="pi3" value="3"> Uncertain</label><label class="opt"><input type="radio" name="pi3" value="2"> Unlikely</label><label class="opt"><input type="radio" name="pi3" value="1"> Very unlikely</label>
+      </div><div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="q-card" data-req="1" data-name="pi4">
+      <div class="q-title">If you discovered that a brand's natural or Ayurvedic claims were false, how would it affect your purchase behaviour? <span class="req">*</span></div>
+      <div class="opts">
+        <label class="opt"><input type="radio" name="pi4" value="stop"> I would stop buying the brand immediately</label>
+        <label class="opt"><input type="radio" name="pi4" value="reduce"> I would reduce purchases but not stop completely</label>
+        <label class="opt"><input type="radio" name="pi4" value="investigate"> I would investigate further before deciding</label>
+        <label class="opt"><input type="radio" name="pi4" value="depends"> It depends — if price and quality are still good, I might continue</label>
+        <label class="opt"><input type="radio" name="pi4" value="no-change"> It would not change my behaviour much</label>
+      </div><div class="err-msg"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D93025"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg> This is a required question</div>
+    </div>
+
+    <div class="nav-row"><span class="page-info"></span><div class="btn-group"><button class="gf-btn gf-btn-text" onclick="goBack()">Back</button><button class="gf-btn gf-btn-primary" onclick="goNext()">Next</button></div></div>
+  </div>
+
+
+  <!-- ═══════════════ PAGE 14: CLOSING ═══════════════ -->
+  <div class="form-section" id="pg-close" data-pg="13">
+    <div class="section-title-card"><div class="stc-body"><div class="stc-title">Almost Done</div><div class="stc-desc">Any final thoughts?</div></div></div>
+    <div class="q-card" data-req="0" data-name="comments">
+      <div class="q-title">Any additional comments about your experience with natural personal care products or claims?</div>
+      <div class="q-hint">Optional — share anything else you'd like us to know.</div>
+      <textarea class="gf-textarea" id="comments" name="comments" rows="3" placeholder="Your comments (optional)..."></textarea>
+    </div>
+    <div class="nav-row">
+      <span class="page-info"></span>
+      <div class="btn-group">
+        <button class="gf-btn gf-btn-text" onclick="goBack()">Back</button>
+        <button class="gf-btn gf-btn-primary" onclick="doSubmit()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ THANK YOU ═══════════════ -->
+  <div class="thankyou" id="tyScreen">
+    <div class="ty-card">
+      <div class="ty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h2 class="ty-title">Your response has been recorded</h2>
+      <p class="ty-body">Thank you for participating! This research will contribute to understanding how consumers perceive natural and sustainability claims in the Indian personal care market.</p>
+      <div class="ty-actions">
+        <button class="ty-btn" onclick="dlJSON()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Response (JSON)
+        </button>
+        <button class="ty-btn" onclick="dlCSV()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          Download Response (CSV)
+        </button>
+        <button class="ty-btn" onclick="document.getElementById('setupPanel').classList.toggle('visible')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          How to Collect Responses
+        </button>
+      </div>
+
+      <!-- Setup Instructions -->
+      <div class="setup-panel" id="setupPanel">
+        <h3>How to Collect Responses from Respondents</h3>
+
+        <div class="setup-step">
+          <span class="step-num">1</span>
+          <strong>Host this HTML file online (free).</strong><br>
+          Upload this file to any free static hosting: <strong>GitHub Pages</strong>, <strong>Netlify</strong> (drag-and-drop), or <strong>Google Sites</strong> (embed as HTML). You'll get a shareable URL like <code>yourname.github.io/survey</code>.
+        </div>
+
+        <div class="setup-step">
+          <span class="step-num">2</span>
+          <strong>Set up Google Sheets as your database (free).</strong><br>
+          1. Create a new Google Sheet.<br>
+          2. Go to <strong>Extensions → Apps Script</strong>.<br>
+          3. Paste this code and replace the Sheet URL:<br><br>
+          <code style="display:block;white-space:pre-wrap;background:#E8EAF6;padding:12px;border-radius:4px;font-size:11px;line-height:1.7;">
+function doPost(e) {
+  var sheet = SpreadsheetApp.openByUrl(
+    'https://docs.google.com/spreadsheets/d/1H555rO0NbCe33IpDi5immon5A3Yi8HUNNazZirfnxz8/edit?usp=sharing'
+  ).getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  var headers = sheet.getRange(1,1,1,sheet.getLastColumn()).getValues()[0];
+  if (headers[0] === '') {
+    headers = Object.keys(data);
+    sheet.getRange(1,1,1,headers.length).setValues([headers]);
+  }
+  var row = headers.map(function(h) { 
+    var v = data[h];
+    return Array.isArray(v) ? v.join(', ') : (v || '');
+  });
+  sheet.appendRow(row);
+  return ContentService.createTextOutput(
+    JSON.stringify({status:'ok'})
+  ).setMimeType(ContentService.MimeType.JSON);
+}</code><br>
+          4. Click <strong>Deploy → New Deployment → Web App</strong>.<br>
+          5. Set "Execute as" = <strong>Me</strong>, "Who has access" = <strong>Anyone</strong>.<br>
+          6. Copy the deployment URL.<br>
+          7. In this HTML file, find <code>https://script.google.com/macros/s/AKfycbxwxQNn8Q-1fQ6g2nH4RdPBmEavK97s37xxCc7X36b9WqLyvl7GtG0itHK1mlUfKFMA4A/exec</code> in the script section and replace it with your URL.
+        </div>
+
+        <div class="setup-step">
+          <span class="step-num">3</span>
+          <strong>Share the link with respondents.</strong><br>
+          Share your hosted URL via WhatsApp, email, Instagram, or print a QR code. Every submission will automatically appear as a new row in your Google Sheet in real time.
+        </div>
+
+        <div class="setup-step">
+          <span class="step-num">4</span>
+          <strong>Alternative: Manual JSON collection.</strong><br>
+          If you can't set up hosting, share this HTML file directly (via email/WhatsApp). Ask each respondent to click <strong>"Download Response (JSON)"</strong> after submitting and send you the file. You can then import all JSON files into Excel/SPSS.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /formApp -->
+
+
+<script>
+/* ═════════════════════════════════════
+   SURVEY ENGINE
+═════════════════════════════════════ */
+let cur = 0, isBuyer = false, resp = {};
+
+const pages = [
+  'pg-consent','pg-demo','pg-screen','pg-buyer',
+  'pg-claim','pg-pa','pg-ec','pg-gs',
+  'pg-bi','pg-bs','pg-wtp','pg-pi','pg-close'
+];
+const buyerPages = ['pg-buyer','pg-pa','pg-bi','pg-bs','pg-wtp'];
+
+function visPages() {
+  return pages.filter(p => isBuyer || !buyerPages.includes(p));
+}
+
+// Option highlight
+document.addEventListener('change', e => {
+  const inp = e.target;
+  if (!inp.closest('.opt')) return;
+  if (inp.type === 'radio') {
+    inp.closest('.opts').querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+    inp.closest('.opt').classList.add('selected');
+  }
+  if (inp.type === 'checkbox') {
+    const card = inp.closest('.q-card');
+    const max = card ? parseInt(card.dataset.max || 0) : 0;
+    if (max > 0 && card.querySelectorAll('input[type="checkbox"]:checked').length > max) {
+      inp.checked = false;
+    }
+    inp.closest('.opt').classList.toggle('selected', inp.checked);
+  }
+  // Clear errors
+  const card = inp.closest('.q-card');
+  if (card) { card.classList.remove('has-error'); const em = card.querySelector('.err-msg'); if (em) em.classList.remove('visible'); }
+  updProgress();
+});
+
+// YN chips
+function pickYN(btn, id, val) {
+  btn.closest('.yn-group').querySelectorAll('.yn-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).value = val;
+  const card = btn.closest('.q-card');
+  if (card) { card.classList.remove('has-error'); const em = card.querySelector('.err-msg'); if (em) em.classList.remove('visible'); }
+  updProgress();
+}
+
+// Validate
+function validate(pgId) {
+  const pg = document.getElementById(pgId);
+  const cards = pg.querySelectorAll('.q-card[data-req="1"]');
+  let ok = true;
+  cards.forEach(c => {
+    if (c.style.display === 'none') return;
+    const nm = c.dataset.name, tp = c.dataset.type;
+    let ans = false;
+    if (tp === 'cb') { ans = c.querySelectorAll('input[type="checkbox"]:checked').length > 0; }
+    else if (tp === 'likert') {
+      const n = parseInt(c.dataset.items);
+      let cnt = 0;
+      for (let i = 1; i <= n; i++) if (document.querySelector(`input[name="${nm}${i}"]:checked`)) cnt++;
+      ans = cnt === n;
+    } else if (c.querySelector('input[type="hidden"]')) { ans = c.querySelector('input[type="hidden"]').value !== ''; }
+    else { ans = !!document.querySelector(`input[name="${nm}"]:checked`); }
+    if (!ans) { ok = false; c.classList.add('has-error'); const em = c.querySelector('.err-msg'); if (em) em.classList.add('visible'); }
+    else { c.classList.remove('has-error'); const em = c.querySelector('.err-msg'); if (em) em.classList.remove('visible'); }
+  });
+  return ok;
+}
+
+function showPg(i) {
+  const vp = visPages();
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(vp[i]).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  updProgress();
+}
+
+function goNext() {
+  const vp = visPages(), pgId = vp[cur];
+
+  // Consent gate
+  if (pgId === 'pg-consent') {
+    const v = document.querySelector('input[name="consent"]:checked');
+    if (!v) { const c = document.querySelector('#pg-consent .q-card'); c.classList.add('has-error'); c.querySelector('.err-msg').classList.add('visible'); return; }
+    if (v.value === 'no') {
+      document.getElementById('formApp').innerHTML = '<div style="max-width:640px;margin:40px auto;"><div class="ty-card" style="border-top:10px solid var(--gf-purple);"><h2 class="ty-title">Thank you</h2><p class="ty-body">Your choice has been respected. No data was recorded.</p></div></div>';
+      return;
+    }
+  }
+
+  if (!validate(pgId)) { const fe = document.querySelector(`#${pgId} .q-card.has-error`); if (fe) fe.scrollIntoView({ behavior:'smooth', block:'center' }); return; }
+
+  // Screening
+  if (pgId === 'pg-screen') {
+    const u = document.querySelector('input[name="patanjali_usage"]:checked');
+    isBuyer = u && ['yes-reg','yes-occ','past-only'].includes(u.value);
+    document.querySelectorAll('.buyer-page').forEach(el => el.style.display = isBuyer ? '' : 'none');
+    document.querySelectorAll('.buyer-q').forEach(el => { el.style.display = isBuyer ? '' : 'none'; if (!isBuyer) el.dataset.req = '0'; else el.dataset.req = '1'; });
+    document.querySelectorAll('.nonbuyer-q').forEach(el => { el.style.display = isBuyer ? 'none' : ''; if (isBuyer) el.dataset.req = '0'; else el.dataset.req = '1'; });
+    if (!isBuyer) { const sn = document.getElementById('skipNotice'); sn.classList.add('visible'); setTimeout(() => sn.classList.remove('visible'), 5000); }
+  }
+
+  // Attn check
+  if (pgId === 'pg-attn') {
+    const a = document.querySelector('input[name="attn"]:checked');
+    if (a && a.value !== '4') { const c = document.querySelector('#pg-attn .q-card'); c.classList.add('has-error'); c.querySelector('.err-msg').classList.add('visible'); return; }
+  }
+
+  cur++;
+  if (cur >= vp.length) return;
+  showPg(cur);
+}
+
+function goBack() { if (cur > 0) { cur--; showPg(cur); } }
+
+function updProgress() {
+  const vp = visPages();
+  const pct = Math.min(Math.round((cur / (vp.length - 1)) * 100), 100);
+  document.getElementById('pFill').style.width = pct + '%';
+  document.getElementById('pPct').textContent = pct + '%';
+}
+
+function collectAll() {
+  const d = { _timestamp: new Date().toISOString(), _path: isBuyer ? 'buyer' : 'non-buyer' };
+  document.querySelectorAll('input[type="radio"]:checked').forEach(r => { d[r.name] = r.value; });
+  const cbNames = new Set();
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(c => cbNames.add(c.name));
+  cbNames.forEach(n => { d[n] = Array.from(document.querySelectorAll(`input[name="${n}"]:checked`)).map(c => c.value); });
+  document.querySelectorAll('input[type="hidden"]').forEach(h => { if (h.name && h.value) d[h.name] = h.value; });
+  const cm = document.getElementById('comments');
+  if (cm && cm.value.trim()) d.comments = cm.value.trim();
+  return d;
+}
+
+function doSubmit() {
+  const vp = visPages();
+  if (!validate(vp[cur])) { const fe = document.querySelector(`#${vp[cur]} .q-card.has-error`); if (fe) fe.scrollIntoView({ behavior:'smooth', block:'center' }); return; }
+  resp = collectAll();
+  document.getElementById('pFill').style.width = '100%';
+  document.getElementById('pPct').textContent = '100%';
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tyScreen').classList.add('visible');
+  document.querySelector('.header-card').style.display = 'none';
+  document.querySelector('.progress-row').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Send to Google Sheets (if configured)
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwxQNn8Q-1fQ6g2nH4RdPBmEavK97s37xxCc7X36b9WqLyvl7GtG0itHK1mlUfKFMA4A/exec'; // ← PASTE YOUR APPS SCRIPT WEB APP URL HERE
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(resp)
+    }).catch(e => console.warn('Sheet post failed:', e));
+  }
+  console.log('Response:', JSON.stringify(resp, null, 2));
+}
+
+function dlJSON() {
+  const b = new Blob([JSON.stringify(resp, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(b);
+  a.download = `survey_response_${Date.now()}.json`; a.click();
+}
+
+function dlCSV() {
+  const keys = Object.keys(resp);
+  const vals = keys.map(k => { const v = resp[k]; return '"' + (Array.isArray(v) ? v.join('; ') : String(v||'')).replace(/"/g,'""') + '"'; });
+  const csv = keys.join(',') + '\n' + vals.join(',');
+  const b = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(b);
+  a.download = `survey_response_${Date.now()}.csv`; a.click();
+}
+
+updProgress();
+</script>
+</body>
+</html>
